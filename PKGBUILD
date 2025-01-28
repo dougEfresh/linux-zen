@@ -1,7 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
-pkgbase=linux-zen
-pkgver=6.12.10.zen1
+pkgbase=linux-native
+pkgver=6.12.10.native1
+_pkgver=6.12.10.zen1
 pkgrel=1
 pkgdesc='Linux ZEN'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -29,29 +30,29 @@ options=(
   !debug
   !strip
 )
-_srcname=linux-${pkgver%.*}
-_srctag=v${pkgver%.*}-${pkgver##*.}
+_srcname=linux-${_pkgver%.*}
+_srctag=v${_pkgver%.*}-${_pkgver##*.}
 source=(
-  https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
+  https://cdn.kernel.org/pub/linux/kernel/v${_pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
   $url/releases/download/$_srctag/linux-$_srctag.patch.zst{,.sig}
-  config  # the main kernel config file
+  config # the main kernel config file
 )
 validpgpkeys=(
-  ABAF11C65A2970B130ABE3C479BE3E4300411886  # Linus Torvalds
-  647F28654894E3BD457199BE38DBBDC86092693E  # Greg Kroah-Hartman
-  83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
+  ABAF11C65A2970B130ABE3C479BE3E4300411886 # Linus Torvalds
+  647F28654894E3BD457199BE38DBBDC86092693E # Greg Kroah-Hartman
+  83BC8889351B5DEBBB68416EB8AC08600F108CDF # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
 sha256sums=('4a516e5ed748537a73cb42ec47fbbeb6df8b1298e8892c29c0e91de79095b297'
-            'SKIP'
-            '1ac0cc107dcb93c83d7e3cd335aa4b5f0660749576550782a9b53bebc42750c6'
-            'SKIP'
-            '25509d6a47cd1723be5f0aec1215e0616a7e39e1e10daad7326d4dc3cf598b0e')
+  'SKIP'
+  '1ac0cc107dcb93c83d7e3cd335aa4b5f0660749576550782a9b53bebc42750c6'
+  'SKIP'
+  '25509d6a47cd1723be5f0aec1215e0616a7e39e1e10daad7326d4dc3cf598b0e')
 b2sums=('3146bbc9075b84db4c6ad3a64cbb91e3c379d0b8e9e90029eaf6a5bd37ea2b8a0a4ac1227e73d0e8acd20cab392841e046e148523bdb206302ea6c37a934b451'
-        'SKIP'
-        'e4003dc5ed2278f85c8ae75bcb16088d58a7d04396c7b1b680861b485e97a02006182d1b0882560b1cdb533401adf3e9bb173a8d06f7740af1d87543ee195f36'
-        'SKIP'
-        'c1beb8ee745df93dedca26f00500df57adb64808c2c10147cb73ed11767cce6ff3cbe9430c400c919ab969cc73a4dded992b952839ec3acf5f9b473f61136294')
+  'SKIP'
+  'e4003dc5ed2278f85c8ae75bcb16088d58a7d04396c7b1b680861b485e97a02006182d1b0882560b1cdb533401adf3e9bb173a8d06f7740af1d87543ee195f36'
+  'SKIP'
+  'c1beb8ee745df93dedca26f00500df57adb64808c2c10147cb73ed11767cce6ff3cbe9430c400c919ab969cc73a4dded992b952839ec3acf5f9b473f61136294')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -61,8 +62,8 @@ prepare() {
   cd $_srcname
 
   echo "Setting version..."
-  echo "-$pkgrel" > localversion.10-pkgrel
-  echo "${pkgbase#linux}" > localversion.20-pkgname
+  echo "-$pkgrel" >localversion.10-pkgrel
+  echo "${pkgbase#linux}" >localversion.20-pkgname
 
   local src
   for src in "${source[@]}"; do
@@ -71,7 +72,7 @@ prepare() {
     src="${src%.zst}"
     [[ $src = *.patch ]] || continue
     echo "Applying patch $src..."
-    patch -Np1 < "../$src"
+    patch -Np1 <"../$src"
   done
 
   echo "Setting config..."
@@ -79,15 +80,15 @@ prepare() {
   make olddefconfig
   diff -u ../config .config || :
 
-  make -s kernelrelease > version
+  make -s kernelrelease >version
   echo "Prepared $pkgbase version $(<version)"
 }
 
 build() {
   cd $_srcname
-  make all
+  make -j 16 all KCFLAGS='-march=native'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
-  make htmldocs
+  #make htmldocs
 }
 
 _package() {
@@ -125,7 +126,7 @@ _package() {
 
   echo "Installing modules..."
   ZSTD_CLEVEL=19 make INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
-    DEPMOD=/doesnt/exist modules_install  # Suppress depmod
+    DEPMOD=/doesnt/exist modules_install # Suppress depmod
 
   # remove build link
   rm "$modulesdir"/build
@@ -195,14 +196,14 @@ _package-headers() {
   local file
   while read -rd '' file; do
     case "$(file -Sib "$file")" in
-      application/x-sharedlib\;*)      # Libraries (.so)
-        strip -v $STRIP_SHARED "$file" ;;
-      application/x-archive\;*)        # Libraries (.a)
-        strip -v $STRIP_STATIC "$file" ;;
-      application/x-executable\;*)     # Binaries
-        strip -v $STRIP_BINARIES "$file" ;;
-      application/x-pie-executable\;*) # Relocatable binaries
-        strip -v $STRIP_SHARED "$file" ;;
+    application/x-sharedlib\;*) # Libraries (.so)
+      strip -v $STRIP_SHARED "$file" ;;
+    application/x-archive\;*) # Libraries (.a)
+      strip -v $STRIP_STATIC "$file" ;;
+    application/x-executable\;*) # Binaries
+      strip -v $STRIP_BINARIES "$file" ;;
+    application/x-pie-executable\;*) # Relocatable binaries
+      strip -v $STRIP_SHARED "$file" ;;
     esac
   done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
 
@@ -236,7 +237,7 @@ _package-docs() {
 pkgname=(
   "$pkgbase"
   "$pkgbase-headers"
-  "$pkgbase-docs"
+  # "$pkgbase-docs"
 )
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
