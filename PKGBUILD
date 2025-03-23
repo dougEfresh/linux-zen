@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.13.5.native1
-_pkgver=6.13.5.zen1
+pkgver=6.13.7.native1
+_pkgver=6.13.7.zen1
 pkgrel=1
 pkgdesc='Linux ZEN'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('283ecb0784f3fbc16dd822fb1d9642e230ec7515ed33f120e551b839f355e6e2'
+sha256sums=('3a39b62038b7ac2f43d26a1f84b4283e197804e1e817ad637e9a3d874c47801d'
             'SKIP'
-            '6c42de9c1228b5c1f3da5191fc636f87972f73b963a802a7906a73641a5ab342'
+            'af9109308e2fe73d6f187ce0a2d26ed246cbcbc7d717b1c671d85d1d61124d39'
             'SKIP'
-            '7dd7ca8b6e73af31eb8d185cfbb07c1259e5581ba989b253143e164ad9fcdb7f')
-b2sums=('f8d57680d657c57bfc02a7981133e1e0dff9718f9ffdaff99be89861582cc8922884a4c8ce76acf8cc97bf407dc77b91d6c0d0cab59b210d5fa485d27eac1999'
+            '07803f452b3d346e49c9f8d3e6a538bc2bb124597eac5f283e4a227a93ca1e9a')
+b2sums=('dc9e71842d7e9d2e016ca2c6e791d627790c87cd445b404c73745dc565eb89617ec69f1150b228d7853a595ea7f6daf6acdb74f8383088af30d42bb4c062a129'
         'SKIP'
-        '9f8cd405e46a8704bbd7074f96ba09c5602ae440d24593db322105a4765b0dfa93b15d2f352821d76c2d464c683582c958de5ae098544923277d2b3ae5220df1'
+        '05cadbe7a698cc41d75eae263c363b014a1be2e26e20d9e2f267eaad6a48fc2765b0a2bee1036ed6f2bd47dc4bb9c5f13cbc34640217adbd437b23afb52082ef'
         'SKIP'
-        'f8617538e75f396c62599db3ac42ab6f58df4d974328f88cbf83082879f863f91a7348bfc8c0f2201aed8a836396be63cb378aa0f461a3348bdb1e09d04b8424')
+        'bd6f5684f1f8e8851063c9386fe8607efddccc3490c82829d4cc6b6e85500e47f51f612e82465dafe0558bb51f22b949765ccdbd27c13814873a1c371049109c')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -91,7 +91,7 @@ build() {
   cd $_srcname
   make -j 16 all KCFLAGS='-march=native'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
-  make htmldocs
+  #make htmldocs
 }
 
 _package() {
