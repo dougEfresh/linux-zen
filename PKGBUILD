@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.14.7.native1
-_pkgver=6.14.7.zen1
+pkgver=6.15.2.native1
+_pkgver=6.15.2.zen1
 pkgrel=1
 pkgdesc='Linux ZEN'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('8112202bc26d086957a94d2109a6dcd4478c5ba18d0f0a5e1c5dfeea01f54972'
+sha256sums=('3458cd6a6c508e161dbc5406e72b99d5dbdf929faf704a67db9ba46d07514858'
             'SKIP'
-            '85ee7aee0f6b6408e714961a8a2416f3ffb32667603df5905794fda48d965068'
+            '1422aa150333ed3f38998d320250ff84e2a1e133c9993df784d95439ebb0d81a'
             'SKIP'
-            '3534ac6428f0fdc5cd4e77235400cf6870072ae36dcf03b6775532f12df5b339')
-b2sums=('1b0dc72ec9ff449d7245a0a457a8c1eea3ba63b42c5c179d9262cdbc2f04451c12359fadf74c7464b67115e9206730787b56a3dd539297e7e5c1ad2ae7e13632'
+            'be0aa5578f09ebd11c3dc4a5a1e5d42c1b16e84e3b59f6e290f62a43e6bba146')
+b2sums=('c2b23abc39af6d2cf67f5963121f16d4a231869203d3915ed6260d6f39ef0d7dbd5c86abac9cc6f9af5b00f8ad6c754f212bdde1d670e60e3a91866718980799'
         'SKIP'
-        '9717352149a1df0c182dc1e90450fa31112179d8171af8ae984e04cca180dc74b136af65e2a60be490a55a33f0e8e207a47d366e87f86302d122b16d6bcf4cd3'
+        '0238b74413a0047a44084623838033bed82eed7c0778296b206ee1f6523fe6e86b6173896e716e4bfb8bb0e8af5adbdd584660bea5a21134ae5a4dd1825bee88'
         'SKIP'
-        '18366a19e18e579c2a1805ca1c0572ff6f5c10f115caf0e6d34988dfdfe7b8d6152b23b70c9705f305d564fb422595e203b1b2a23f8c403113e51bcdfdca2621')
+        '7491a03992687d920f94dbddf6b3875335fc40386d5912bca9e776fc9e7afa46feb6696e0cda26fd6f5e84ae81cd8bb4d6e8463c2da6381d8a6c8b724efe6681')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -109,7 +109,6 @@ _package() {
   provides=(
     KSMBD-MODULE
     NTSYNC-MODULE
-    UKSMD-BUILTIN
     VHBA-MODULE
     VIRTUALBOX-GUEST-MODULES
     WIREGUARD-MODULE
