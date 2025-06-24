@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.15.2-zen1 Kernel Configuration
+# Linux/x86 6.15.3-zen1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 15.1.1 20250425"
 CONFIG_CC_IS_GCC=y
@@ -211,6 +211,7 @@ CONFIG_HAVE_UNSTABLE_SCHED_CLOCK=y
 #
 CONFIG_UCLAMP_TASK=y
 CONFIG_UCLAMP_BUCKETS_COUNT=5
+# CONFIG_SCHED_ALT is not set
 # end of Scheduler features
 
 CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y

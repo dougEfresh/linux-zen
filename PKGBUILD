@@ -1,10 +1,10 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.15.2.native1
-_pkgver=6.15.2.zen1
+pkgver=6.15.3.native1
+_pkgver=6.15.3.zen1
 pkgrel=1
-pkgdesc='Linux ZEN'
+pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
 arch=(x86_64)
 license=(GPL-2.0-only)
@@ -38,7 +38,7 @@ _srctag=v${_pkgver%.*}-${_pkgver##*.}
 source=(
   https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
   $url/releases/download/$_srctag/linux-$_srctag.patch.zst{,.sig}
-  config # the main kernel config file
+  config  # the main kernel config file
 )
 validpgpkeys=(
   ABAF11C65A2970B130ABE3C479BE3E4300411886  # Linus Torvalds
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('3458cd6a6c508e161dbc5406e72b99d5dbdf929faf704a67db9ba46d07514858'
+sha256sums=('12b50c89925438d9cd7385a0cafc9c433e6562ac5df00a21889fce9f548d65b0'
             'SKIP'
-            '1422aa150333ed3f38998d320250ff84e2a1e133c9993df784d95439ebb0d81a'
+            '6f77083b9b40c99c41545692ae965ccb43b76b2c15c5acc0604cb0db36cd5da4'
             'SKIP'
-            'be0aa5578f09ebd11c3dc4a5a1e5d42c1b16e84e3b59f6e290f62a43e6bba146')
-b2sums=('c2b23abc39af6d2cf67f5963121f16d4a231869203d3915ed6260d6f39ef0d7dbd5c86abac9cc6f9af5b00f8ad6c754f212bdde1d670e60e3a91866718980799'
+            '42bf04b63f43ff33a0d44ab8be5db225d883fa038dba8e916605b6d0964af020')
+b2sums=('a37548adb40b1800f41dd3980d8a2c6d16955548a8c8e02213e2f93b7e57b7320d1ed29749a818635bc8df0c8fe169f9ad3895a64db3a8c9109506682c155790'
         'SKIP'
-        '0238b74413a0047a44084623838033bed82eed7c0778296b206ee1f6523fe6e86b6173896e716e4bfb8bb0e8af5adbdd584660bea5a21134ae5a4dd1825bee88'
+        '1babcab455d136dae2635fb0027898987a5de00ee8713f49f4473cef5830695eb049ce997614c2d05b77c0a60242ea475b6ce42628d46f6e0092611d480bec86'
         'SKIP'
-        '7491a03992687d920f94dbddf6b3875335fc40386d5912bca9e776fc9e7afa46feb6696e0cda26fd6f5e84ae81cd8bb4d6e8463c2da6381d8a6c8b724efe6681')
+        '3bf4f5190cd07b239eff6fb911ccfc30481ae45cd78b791dfd3c4064b6d36d02245682d4c53f30bf2db0e4d4c1ee44e284b356313c98741cc876a8e36c353b40')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
