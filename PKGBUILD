@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.15.4.native1
-_pkgver=6.15.4.zen2
+pkgver=6.15.5.native1
+_pkgver=6.15.5.zen1
 pkgrel=1
 pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('0eafd627b602f58d73917d00e4fc3196ba18cba67df6995a42aa74744d8efa16'
+sha256sums=('2ca707939c14431232649874d438aa58f11b4b127290fa68d164f8bd79c688b5'
             'SKIP'
-            'b927e43ac25523e5df4581e9e69dc2f767b453a96437190a95136ce5d9c38532'
+            'd479b0cbe9f9b0c4cfd57f5892adabebc7089ece99fd8ec7ba1051d5344c93b9'
             'SKIP'
-            '675b2b5b2c58d473ec62a4350673b38b67cbeb3c839746cb52f3cd8c3b33ffec')
-b2sums=('926cbb770f3928263414b444f63790606376f9a48ee006e85d15f877ed04444c6de889be7ccde8d25ffc650f98de78fd04639c11bf4540182244366440b6ccaa'
+            '4a55635f59c48f526dc2ad97fa138aa777d291902a475d6e78d4bac7311d3cc2')
+b2sums=('6e8143b4f2c10f6747ab1cc4c56b06b9dc06ff3790c5067ce6daf53f5538c78f5d4dd0e4fb037dd73b673140ff3b93b1a663befe4b1f059abe2dfca3ce939ea8'
         'SKIP'
-        '0c91fa316e4fa9fe0d59efaf9f784e98c3d8e0c162a9d2da04a95587f7a7480bd5307fa6536c973e7abbbb8a46143aca4604ebe7add65a5c97cd8fca1a548f36'
+        '0d025d909b9fed19ea0e3e10f504a84a8fb4f721436db9e4ddb4e12c7cfa01c7ce264777600b246df0c1a63e17f229116dd102b55e68338ea55edb0c6baa7a24'
         'SKIP'
-        '246b8cca103d450e8a0220014eb084f62ddfde988403544635b66484518815c23a8120c55b25e4a2ff4911d37ceb22821b8773f228f0b9b7d000ae4c7d15520c')
+        '19b6b2cfa4b392df1ee5733d875d374494cb87ed4602f2b6be54848b1fa3f1b91daccc19d4c386f958029c4cbbc2b4fbcf4b9a02b8b6c6595d4793398bdbdc83')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
