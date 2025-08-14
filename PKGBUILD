@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.15.5.native1
-_pkgver=6.15.5.zen1
+pkgver=6.16.native1
+_pkgver=6.16.zen1
 pkgrel=1
 pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('2ca707939c14431232649874d438aa58f11b4b127290fa68d164f8bd79c688b5'
+sha256sums=('1a4be2fe6b5246aa4ac8987a8a4af34c42a8dd7d08b46ab48516bcc1befbcd83'
             'SKIP'
-            'd479b0cbe9f9b0c4cfd57f5892adabebc7089ece99fd8ec7ba1051d5344c93b9'
+            '53ca3e1c5d0e4b4a70da3e5946beb92987100105c19fee0934ae12f99755df60'
             'SKIP'
-            '4a55635f59c48f526dc2ad97fa138aa777d291902a475d6e78d4bac7311d3cc2')
-b2sums=('6e8143b4f2c10f6747ab1cc4c56b06b9dc06ff3790c5067ce6daf53f5538c78f5d4dd0e4fb037dd73b673140ff3b93b1a663befe4b1f059abe2dfca3ce939ea8'
+            'a9550ffda320b03fe0acc800e888a9f132e99d146f0cd4d29886d5872c83d283')
+b2sums=('87bc4da7e89cc8265aebffea7ec6c09f711be24fee87cb1c03a264c03fd5a538d66aa806640835aa5103926e612cdfbc52d7c861d7f7065f1a8bb11d893b0921'
         'SKIP'
-        '0d025d909b9fed19ea0e3e10f504a84a8fb4f721436db9e4ddb4e12c7cfa01c7ce264777600b246df0c1a63e17f229116dd102b55e68338ea55edb0c6baa7a24'
+        '48ac300a860ea50199afa6651467a08d5d4ac83b1eea417c91f2b3e128894b21bbc519c4aa5c0b80dd76bd4f20597779bcde207126cb52422989386f2ab7e00e'
         'SKIP'
-        '19b6b2cfa4b392df1ee5733d875d374494cb87ed4602f2b6be54848b1fa3f1b91daccc19d4c386f958029c4cbbc2b4fbcf4b9a02b8b6c6595d4793398bdbdc83')
+        'e9669f0173aea503d654b0ac6fdcf9fa1d9d6239d64135094301ae639df8eb55699316baf9ed0aca9be9199eb1845fbba5a7026b22fc5d4ff66ba9eeef445c30')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -91,7 +91,7 @@ build() {
   cd $_srcname
   make -j 16 all KCFLAGS='-march=native'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
-  #make htmldocs
+  #make htmldocs SPHINXOPTS=-QT
 }
 
 _package() {
