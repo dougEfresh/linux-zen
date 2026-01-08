@@ -1,9 +1,9 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.16.3.native1
-_pkgver=6.16.3.zen1
-pkgrel=1
+pkgver=6.18.3.native1
+_pkgver=6.18.3.zen1
+pkgrel=2
 pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
 arch=(x86_64)
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('80439ba055c12f541abf44b8fc3c9b825a8f42fc25ce67462ec7e556c5790b85'
+sha256sums=('7a8879167b89c4bae077d6f39c4f2130769f05dbdad2aad914adab9afb7d7f9a'
             'SKIP'
-            'eaa128ab9998cf55e65879a4d814dcd0041574050e0232a1eb1db8ef86e4c67d'
+            '34598bf04a1dcc76373a11678236c46708d85fd8bf1f4c7f4f54bba7a111e520'
             'SKIP'
-            '4e21fd0befad59963779b81faf4f394ae2bfc217c8046a2bb0ee1e73a3a081b8')
-b2sums=('3053226fdec6b69c3bb0a4c9cae0a2595c05a74e99a78d5a0fd9f5d016d192a3b057e72b8cb8471e5f4d021d7a1887bcd7713d33b00ba02ea7eee5f6a981db19'
+            '53bc3acf6d35674c4985237917bba959143ddbb09c45f60d724e98c05fabe45c')
+b2sums=('273e7b7161765022c7345d00a57ab865ac443422327157522b8a2960ead39b0fbac17b7a8b27d09800d06e08c3ce04e3bc08433863aedc3a8ec1e7a51e6d9d4a'
         'SKIP'
-        '9f4148fad52a149fc061254b379a1508df68e4500e50dd18cda5f7a26e063a4367da2bdf38441191eb1faff78339b4786a41a75c84ddb9c52f1eddfdda3ac0a3'
+        'cd7c7026515feddc80accdb663da531f10f3c10ac92849ff0039b62d37bd9f826c6dd68841eead353564d4eb592f13f0460b6f6144e3cb42815b7efa5c7b7f51'
         'SKIP'
-        '7850624eb25302015d092d58f0b7d8d85e19f75c65871aa2cfd8ef28c52b79b15651956fe9e6da90fd7967345db1bc4363a48d0dbcc88954f57a05e2688d294f')
+        'e5943431e0b5184ca5681255889b5990a73f7c25e5e4f7575adc1109c7d5e06f96c983b9a53cf1306093a35686853204fa24ba4eae1e9603c798edd896f805d4')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -89,7 +89,7 @@ prepare() {
 
 build() {
   cd $_srcname
-  make -j 16 all KCFLAGS='-march=native'
+  make -j 3 all KCFLAGS='-march=native -mtune=native -pipe'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
   #make htmldocs SPHINXOPTS=-QT
 }
