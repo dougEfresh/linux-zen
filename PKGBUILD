@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgbase=linux-native
-pkgver=6.18.7.native1
-_pkgver=6.18.7.zen1
+pkgver=6.18.9.native1
+_pkgver=6.18.9.zen1
 pkgrel=1
 pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
@@ -46,16 +46,16 @@ validpgpkeys=(
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('b726a4d15cf9ae06219b56d87820776e34d89fbc137e55fb54a9b9c3015b8f1e'
+sha256sums=('030115ff8fb4cb536d8449dc40ebc3e314e86ba1b316a6ae21091a11cc930578'
             'SKIP'
-            '6756dbcf8609f37893386b0f52e938739eed969bfb07a890717c381283a565d7'
+            '6de083ccfbe1283715c30876a53e3a92c8aa702b6023c6a471e5d008b30f78ca'
             'SKIP'
-            '63c4efa5943a8fd1f2f3469574e5214689362ee9d0dd8406ea2edbb89001c85a')
-b2sums=('3ad31b9b36ea2c8f865c87e63c97a4e7b6684abee35ae71d5838026de9f476edb4c847adab315235293c5f37f8f3b90799ae2b3d41915716710eae63acbf6863'
+            '7705de87b7fe91d1a41e6aa3a31e119c863d6fb796f5338fca3d63e300a9f0e3')
+b2sums=('9aed902e41583597cb7595efe77504630a621993d20f89365a93cf2ea4d9790a6361d93cbb7fd7603881a4f82b76394b7e12fb4e4a88c9fedb2d63d64a9d49d3'
         'SKIP'
-        'def9285760356e12df9c3f27d0b5a0aa67f464f7b632b138e60104bdc890c1ad08447dc94bc4d40d7f315238275e7ee5a60989583b207bef8968f411bf01005a'
+        '9034b7a407d863d868506234702b7572e6de65110e4aecefb56dc5362dbf0a4088c2b97069b275cda75ce244782a1f348e6f838dbe25fbd4abbf4a2175473b8e'
         'SKIP'
-        'b56749cea15c5008c9295e0235a9dcd37a0e4b1b21ef7c3cb43c2709fec5a8ed31089adef1533e6188891f4927f339bb656570847dad679750ef90471ec92aad')
+        'cb57048902a6176df360fdcd960462c22a2de176c4c22793a90495c968e32c5e8953b4367714c823da58ab1054fe1f9ddf58e69296fa7cae879f6b02fff50ed9')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -138,6 +138,7 @@ _package() {
 _package-headers() {
   pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
   depends=(pahole)
+  provides=(LINUX-HEADERS)
 
   cd $_srcname
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
