@@ -47,17 +47,18 @@ validpgpkeys=(
   647F28654894E3BD457199BE38DBBDC86092693E  # Greg Kroah-Hartman
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
-b2sums=('612fd1e944194c20bb2e6f9d2b309d5957db5b738bcb7b782c9c25de4c02b341fa5caa9af76d92e88628135b8334f550cc2277d63738098fde950ca05f46e89a'
-        'SKIP'
-        '683ea0a422207be1edf2d903831b07303f140b578de1b3897a38308ba4d50acfc9a3fe619a5e5521b9906b14a08a84eccc64eb1734b8b8e1bfe9eebc0b2716da'
-        'SKIP')
-b2sums_x86_64=('805fbf7b4becf5f46cb0399ca2fd8c012b25cca08cd461ed1522438aa14dddebdcdd7665c94cc4885b745652136fe1329ade8755482fb2fe02f62495332edb13')
-
-# https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
 sha256sums=('4d9f3ff73214f68c0194ef02db9ca4b7ba713253ac1045441d4e9f352bc22e14'
             'SKIP'
             '67149f13fa844780bb0c83fc02bdd56ba31d762009b1f24fafd9cd806db8d0f5'
             'SKIP')
+sha256sums_x86_64=('3e6f0082b950e6b3acec78fc0925b5765eac52e7913242f6f9ade00ab7eac80d')
+b2sums=('612fd1e944194c20bb2e6f9d2b309d5957db5b738bcb7b782c9c25de4c02b341fa5caa9af76d92e88628135b8334f550cc2277d63738098fde950ca05f46e89a'
+        'SKIP'
+        '683ea0a422207be1edf2d903831b07303f140b578de1b3897a38308ba4d50acfc9a3fe619a5e5521b9906b14a08a84eccc64eb1734b8b8e1bfe9eebc0b2716da'
+        'SKIP')
+b2sums_x86_64=('1abd741f8d0b23b6c4c790a4f59622a83cfc001f61cc1376591d11c03c1c54b20fe8b124db8d838b9b55a9fc84248b2284dd1628fb816b00389c7d9ddc0ec1d5')
+
+# https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -270,5 +271,11 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
+
+_install_extras() {
+  install -Dm644 "$startdir/services/scx.service"        -t "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 "$startdir/services/scxtop-mcp.service" -t "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 "$startdir/services/scx"                    "$pkgdir/etc/default/scx"
+}
 
 # vim:set ts=8 sts=2 sw=2 et:
