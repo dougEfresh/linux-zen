@@ -1,12 +1,15 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
+<<<<<<< HEAD
 pkgbase=linux-native
-pkgver=6.18.9.native1
-_pkgver=6.18.9.zen1
+pkgver=6.19.6.native1
+_pkgver=6.19.6.zen1
 pkgrel=1
 pkgdesc='Linux NATIVE'
 url='https://github.com/zen-kernel/zen-kernel'
-arch=(x86_64)
+arch=(
+  x86_64
+)
 license=(GPL-2.0-only)
 makedepends=(
   bc
@@ -38,24 +41,24 @@ _srctag=v${_pkgver%.*}-${_pkgver##*.}
 source=(
   https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
   $url/releases/download/$_srctag/linux-$_srctag.patch.zst{,.sig}
-  config  # the main kernel config file
 )
+source_x86_64=(config.x86_64)
 validpgpkeys=(
   ABAF11C65A2970B130ABE3C479BE3E4300411886  # Linus Torvalds
   647F28654894E3BD457199BE38DBBDC86092693E  # Greg Kroah-Hartman
   83BC8889351B5DEBBB68416EB8AC08600F108CDF  # Jan Alexander Steffens (heftig)
 )
+b2sums=('612fd1e944194c20bb2e6f9d2b309d5957db5b738bcb7b782c9c25de4c02b341fa5caa9af76d92e88628135b8334f550cc2277d63738098fde950ca05f46e89a'
+        'SKIP'
+        '683ea0a422207be1edf2d903831b07303f140b578de1b3897a38308ba4d50acfc9a3fe619a5e5521b9906b14a08a84eccc64eb1734b8b8e1bfe9eebc0b2716da'
+        'SKIP')
+b2sums_x86_64=('805fbf7b4becf5f46cb0399ca2fd8c012b25cca08cd461ed1522438aa14dddebdcdd7665c94cc4885b745652136fe1329ade8755482fb2fe02f62495332edb13')
+
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
-sha256sums=('030115ff8fb4cb536d8449dc40ebc3e314e86ba1b316a6ae21091a11cc930578'
+sha256sums=('4d9f3ff73214f68c0194ef02db9ca4b7ba713253ac1045441d4e9f352bc22e14'
             'SKIP'
-            '6de083ccfbe1283715c30876a53e3a92c8aa702b6023c6a471e5d008b30f78ca'
-            'SKIP'
-            '7705de87b7fe91d1a41e6aa3a31e119c863d6fb796f5338fca3d63e300a9f0e3')
-b2sums=('9aed902e41583597cb7595efe77504630a621993d20f89365a93cf2ea4d9790a6361d93cbb7fd7603881a4f82b76394b7e12fb4e4a88c9fedb2d63d64a9d49d3'
-        'SKIP'
-        '9034b7a407d863d868506234702b7572e6de65110e4aecefb56dc5362dbf0a4088c2b97069b275cda75ce244782a1f348e6f838dbe25fbd4abbf4a2175473b8e'
-        'SKIP'
-        'cb57048902a6176df360fdcd960462c22a2de176c4c22793a90495c968e32c5e8953b4367714c823da58ab1054fe1f9ddf58e69296fa7cae879f6b02fff50ed9')
+            '67149f13fa844780bb0c83fc02bdd56ba31d762009b1f24fafd9cd806db8d0f5'
+            'SKIP')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -79,9 +82,9 @@ prepare() {
   done
 
   echo "Setting config..."
-  cp ../config .config
+  cp ../config.$CARCH .config
   make olddefconfig
-  diff -u ../config .config || :
+  diff -u ../config.$CARCH .config || :
 
   make -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"
@@ -102,6 +105,7 @@ _package() {
     kmod
   )
   optdepends=(
+    "$pkgbase-headers: headers and scripts for building modules"
     'linux-firmware: firmware images needed for some devices'
     'scx-scheds: to use sched-ext schedulers'
     'wireless-regdb: to set the correct wireless channels of your country'
@@ -143,24 +147,32 @@ _package-headers() {
   cd $_srcname
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
 
+  local karch
+  case $CARCH in
+    x86_64) karch=x86 ;;
+    *) echo "Unknown CARCH $CARCH"; exit 1 ;;
+  esac
+
   echo "Installing build files..."
   install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
     localversion.* version vmlinux tools/bpf/bpftool/vmlinux.h
   install -Dt "$builddir/kernel" -m644 kernel/Makefile
-  install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
+  install -Dt "$builddir/arch/$karch" -m644 arch/$karch/Makefile
   cp -t "$builddir" -a scripts
   ln -srt "$builddir" "$builddir/scripts/gdb/vmlinux-gdb.py"
 
-  # required when STACK_VALIDATION is enabled
-  install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+  if [[ $(scripts/config -s CONFIG_HAVE_STACK_VALIDATION) = y ]]; then
+    install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+  fi
 
-  # required when DEBUG_INFO_BTF_MODULES is enabled
-  install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+  if [[ $(scripts/config -s CONFIG_DEBUG_INFO_BTF_MODULES) = y ]]; then
+    install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+  fi
 
   echo "Installing headers..."
   cp -t "$builddir" -a include
-  cp -t "$builddir/arch/x86" -a arch/x86/include
-  install -Dt "$builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
+  cp -t "$builddir/arch/$karch" -a arch/$karch/include
+  install -Dt "$builddir/arch/$karch/kernel" -m644 arch/$karch/kernel/asm-offsets.s
 
   install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
   install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
@@ -180,8 +192,10 @@ _package-headers() {
   find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
 
   echo "Installing Rust files..."
-  install -Dt "$builddir/rust" -m644 rust/*.rmeta
-  install -Dt "$builddir/rust" rust/*.so
+  if [[ $(scripts/config -s CONFIG_RUST) = y ]]; then
+    install -Dt "$builddir/rust" -m644 rust/*.rmeta
+    install -Dt "$builddir/rust" rust/*.so
+  fi
 
   echo "Installing unstripped VDSO..."
   make INSTALL_MOD_PATH="$pkgdir/usr" vdso_install \
@@ -190,7 +204,7 @@ _package-headers() {
   echo "Removing unneeded architectures..."
   local arch
   for arch in "$builddir"/arch/*/; do
-    [[ $arch = */x86/ ]] && continue
+    [[ $arch = */$karch/ ]] && continue
     echo "Removing $(basename "$arch")"
     rm -r "$arch"
   done
