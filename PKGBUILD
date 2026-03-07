@@ -1,6 +1,5 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
-<<<<<<< HEAD
 pkgbase=linux-native
 pkgver=6.19.6.native1
 _pkgver=6.19.6.zen1
@@ -39,7 +38,7 @@ options=(
 _srcname=linux-${_pkgver%.*}
 _srctag=v${_pkgver%.*}-${_pkgver##*.}
 source=(
-  https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
+  https://cdn.kernel.org/pub/linux/kernel/v${_pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
   $url/releases/download/$_srctag/linux-$_srctag.patch.zst{,.sig}
 )
 source_x86_64=(config.x86_64)
@@ -92,7 +91,7 @@ prepare() {
 
 build() {
   cd $_srcname
-  make -j 3 all KCFLAGS='-march=native -mtune=native -pipe'
+  make -j 2 all KCFLAGS='-march=native -mtune=native -pipe'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
   #make htmldocs SPHINXOPTS=-QT
 }
@@ -263,7 +262,7 @@ _package-docs() {
 pkgname=(
   "$pkgbase"
   "$pkgbase-headers"
-  # "$pkgbase-docs"
+  "$pkgbase-docs"
 )
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
