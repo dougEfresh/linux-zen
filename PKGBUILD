@@ -92,7 +92,7 @@ prepare() {
 
 build() {
   cd $_srcname
-  make all KCFLAGS='-march=native -mtune=native -pipe'
+  make -j 10 all KCFLAGS='-march=native -mtune=native -pipe'
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
   #make htmldocs SPHINXOPTS=-QT
 }
@@ -271,10 +271,5 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-
-_install_extras() {
-  install -Dm644 "$startdir/services/scx.service"        -t "$pkgdir/usr/lib/systemd/system/"
-  install -Dm644 "$startdir/services/scx"                    "$pkgdir/etc/default/scx"
-}
 
 # vim:set ts=8 sts=2 sw=2 et:
